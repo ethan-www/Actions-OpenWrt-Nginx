@@ -39,6 +39,7 @@ jobs:
         echo "::set-env name=UPLOAD_FIRMWARE_FOR_RELEASE::${UPLOAD_FIRMWARE_FOR_RELEASE}"
         echo "::set-env name=UPLOAD_FIRMWARE_TO_COWTRANSFER::${UPLOAD_FIRMWARE_TO_COWTRANSFER}"
         echo "::set-env name=UPLOAD_FIRMWARE_TO_WETRANSFER::${UPLOAD_FIRMWARE_TO_WETRANSFER}"
+
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -56,6 +57,7 @@ jobs:
         echo "::set-env name=date::$(date +'%m/%d_%Y_%H/%M')"
         echo "::set-env name=date2::$(date +'%m/%d %Y')"
         echo "::set-env name=date3::$(date +'%m.%d')"
+
     - name: Clone source code
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
@@ -73,6 +75,7 @@ jobs:
         #ln -s /mnt/openwrt/build_dir/host openwrt/build_dir/
         #ln -s /mnt/openwrt/dl openwrt/
         #ln -s /mnt/openwrt/staging_dir openwrt/
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -89,7 +92,7 @@ jobs:
         make defconfig
         [ $(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/') == generic ] && DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/CONFIG_TARGET_(.*)_DEVICE_.*=y/\1/') || DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/')
         echo "::set-env name=DEVICE_NAME::$DEVICE_NAME"
-                
+        
     - name: Default PPPOE Setting
       if: env.PPPOE_USERNAME && env.PPPOE_PASSWD
       run: |
@@ -122,7 +125,6 @@ jobs:
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
         echo "::set-env name=status::success"
-      timeout-minutes: 600
       
     - name: Upload bin directory
       uses: actions/upload-artifact@master
