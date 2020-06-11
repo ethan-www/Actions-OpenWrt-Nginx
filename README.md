@@ -61,12 +61,14 @@ diy云编译教程: [Read the details in my blog (in Chinese) | 中文教程](ht
 + UPNP 自动端口转发
 + Turbo ACC 网络加速
 + ACME自动SSL证书生成
++ usb-printer USB打印
 + diskman 磁盘管理
 + ksmbd + NFS +FTP 网络共享
 + Fileassistant 文件传输
 + Familycloud 天翼云提速
 + usb-printer USB打印服务
 + BaiduPCS-Web 百度网盘web客户端(Aria2+修复登录)
++ Verysync 微力同步
 + FileRun  google drive风格多功能网盘
 + Rclone 网盘挂载,同步工具
 + Aria2 全能下载工具
